@@ -131,7 +131,6 @@ contract GenericHeroesLeague is ERC721, Ownable {
   }
 
   function _mintLoop(address _receiver, uint256 _mintAmount) internal {
-    
     for (uint256 i = 0; i < _mintAmount * mintBonusMultiplier; i++) {
       supply.increment();
       _safeMint(_receiver, supply.current());
