@@ -19,6 +19,7 @@ contract GenericHeroesLeague is ERC721, Ownable {
   uint256 public cost = 0.06 ether;
   uint256 public maxSupply = 6990;
   uint256 public maxMintAmountPerTx = 5;
+  uint256 public mintBonusMultiplier = 1;
 
   bool public paused = true;
   bool public revealed = false;
@@ -60,16 +61,13 @@ contract GenericHeroesLeague is ERC721, Ownable {
 
     while (ownedTokenIndex < ownerTokenCount && currentTokenId <= maxSupply) {
       address currentTokenOwner = ownerOf(currentTokenId);
-
+      
       if (currentTokenOwner == _owner) {
         ownedTokenIds[ownedTokenIndex] = currentTokenId;
-
         ownedTokenIndex++;
       }
-
       currentTokenId++;
     }
-
     return ownedTokenIds;
   }
 
@@ -103,6 +101,10 @@ contract GenericHeroesLeague is ERC721, Ownable {
     cost = _cost;
   }
 
+  function setMintBonusMultiplier(uint256 _mintBonusMultiplier) public onlyOwner {
+    mintBonusMultiplier = _mintBonusMultiplier;
+  }
+
   function setMaxMintAmountPerTx(uint256 _maxMintAmountPerTx) public onlyOwner {
     maxMintAmountPerTx = _maxMintAmountPerTx;
   }
@@ -129,7 +131,8 @@ contract GenericHeroesLeague is ERC721, Ownable {
   }
 
   function _mintLoop(address _receiver, uint256 _mintAmount) internal {
-    for (uint256 i = 0; i < _mintAmount; i++) {
+    
+    for (uint256 i = 0; i < _mintAmount * mintBonusMultiplier; i++) {
       supply.increment();
       _safeMint(_receiver, supply.current());
     }
