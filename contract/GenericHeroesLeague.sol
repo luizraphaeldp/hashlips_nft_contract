@@ -17,7 +17,7 @@ contract GenericHeroesLeague is ERC721, Ownable {
   string public hiddenMetadataUri;
   
   uint256 public cost = 0.06 ether;
-  uint256 public maxSupply = 6990;
+  uint256 public maxSupply = 9990;
   uint256 public maxMintAmountPerTx = 5;
   uint256 public mintBonusMultiplier = 1;
 
@@ -25,7 +25,7 @@ contract GenericHeroesLeague is ERC721, Ownable {
   bool public revealed = false;
 
   constructor() ERC721("Generic Heroes League", "GHL") {
-    setHiddenMetadataUri("ipfs://__CID__/hidden.json");
+    setHiddenMetadataUri("ipfs://QmREFcGFuVJTh8H9okQuubvJMqH3YJdSCSc6esU5EDcmta");
   }
 
   modifier mintCompliance(uint256 _mintAmount) {
@@ -101,7 +101,7 @@ contract GenericHeroesLeague is ERC721, Ownable {
     cost = _cost;
   }
 
-  function setMintBonusMultiplier(uint256 _mintBonusMultiplier) public onlyOwner {
+   function setMintBonusMultiplier(uint256 _mintBonusMultiplier) public onlyOwner {
     mintBonusMultiplier = _mintBonusMultiplier;
   }
 
@@ -131,7 +131,7 @@ contract GenericHeroesLeague is ERC721, Ownable {
   }
 
   function _mintLoop(address _receiver, uint256 _mintAmount) internal {
-    for (uint256 i = 0; i < _mintAmount * mintBonusMultiplier; i++) {
+     for (uint256 i = 0; i < (_mintAmount * mintBonusMultiplier); i++) {
       supply.increment();
       _safeMint(_receiver, supply.current());
     }
